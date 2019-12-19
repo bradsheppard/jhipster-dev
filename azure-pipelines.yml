@@ -17,16 +17,16 @@ jobs:
         inputs:
           versionSpec: '12.13.1'
         displayName: 'TOOLS: install Node.js'
-      - script: sudo npm install -g npm
-        displayName: 'TOOLS: update NPM'
-      - script: sudo chown -R vsts:docker /home/vsts/.npm/
-        displayName: 'BUGS-FIX: change /home/vsts/.npm/ permission'
+      - script: |
+          curl -o- -L https://yarnpkg.com/install.sh | bash
+          export PATH=$HOME/.yarn/bin:$PATH
+        displayName: 'TOOLS: install Yarn'
       - script: sudo /etc/init.d/mysql stop
         displayName: 'TOOLS: stop MySQL'
       #----------------------------------------------------------------------
       # Tests
       #----------------------------------------------------------------------
-      - script: npm install
-        displayName: 'INSTALL: launch npm install'
-      - script: npm test
+      - script: yarn install
+        displayName: 'INSTALL: launch yarn install'
+      - script: yarn test
         displayName: 'TESTS: frontend'
